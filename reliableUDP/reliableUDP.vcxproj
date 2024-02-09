@@ -127,13 +127,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MessageRouter.cpp" />
     <ClCompile Include="NetworkFile.cpp" />
+    <ClCompile Include="PacketPacker.cpp" />
     <ClCompile Include="ReliableUDP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\reliableSummary\ReliableSummary.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="Net.h" />
+    <ClInclude Include="TransferProtocol.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

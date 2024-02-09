@@ -124,6 +124,9 @@ int main(int argc, char* argv[])
 
 	//filename
 
+	//bitfield struct
+
+	//File mode enum
 
 
 	enum Mode
@@ -226,6 +229,9 @@ int main(int argc, char* argv[])
 			unsigned char packet[PacketSize];
 			memset(packet, 0, sizeof(packet));
 
+			//PackPacket(char* packet, bitfield)
+			
+			
 			//If mode == Client
 				//Load packet
 					//Header 
@@ -252,6 +258,12 @@ int main(int argc, char* argv[])
 			if (bytes_read == 0)
 				break;
 
+			
+			//call to message router method to parse header
+			
+			
+			
+			
 			//If mode == Server
 				//If first packet
 					// Create file to write to

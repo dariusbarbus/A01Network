@@ -50,7 +50,6 @@
 #define MAX_DATA_HEADER_BYTES 30 //Max header length for data transfer packets
 #define SIZE_OF_PAYLOAD 3 //Max payload chars (10^2 bytes)
 	//Transfer Identifier
-	//Filesize
 	//Size of Payload (bytes)
 //Payload
 

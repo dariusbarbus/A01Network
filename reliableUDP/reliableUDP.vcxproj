@@ -133,9 +133,9 @@
     <ClCompile Include="ReliableUDP.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\reliableSummary\ReliableSummary.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="Net.h" />
+    <ClInclude Include="ReliableSummary.h" />
     <ClInclude Include="TransferProtocol.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

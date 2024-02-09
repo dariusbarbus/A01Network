@@ -135,20 +135,29 @@ int main(int argc, char* argv[])
 		Server
 	};
 
+	//struct 
+	//{
+	//	char filename[strlen(argv[2] + 1)];
+	//} fileData;	
+
 	Mode mode = Server;
 	Address address;
 	//FileData fileInfo
 
-	if (argc >= 2) //change to 3 (or whatever max number of args we decide on)
+	if (argc >= 2) //the ip - filename
 	{
 		int a, b, c, d;
+
 #pragma warning(suppress : 4996)
 		if (sscanf(argv[1], "%d.%d.%d.%d", &a, &b, &c, &d))
 		{
 			mode = Client;
 			address = Address(a, b, c, d, ServerPort);
-			//FileInfo.filename = filename
 		}
+
+		string filename = argv[2];
+		cout << filename << endl;
+
 	}
 
 	// initialize

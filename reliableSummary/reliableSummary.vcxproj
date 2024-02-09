@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{7f2e81e7-e386-4ba8-96aa-57166e237e1d}</ProjectGuid>
-    <RootNamespace>reliableUDP</RootNamespace>
+    <ProjectGuid>{156568c6-c9a6-487c-b0f2-d8c76dc1765c}</ProjectGuid>
+    <RootNamespace>reliableSummary</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,16 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LocalFile.cpp" />
-    <ClCompile Include="MessageRouter.cpp" />
-    <ClCompile Include="NetworkFile.cpp" />
-    <ClCompile Include="PacketPacker.cpp" />
-    <ClCompile Include="ReliableUDP.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\reliableSummary\ReliableSummary.h" />
-    <ClInclude Include="Net.h" />
-    <ClInclude Include="TransferProtocol.h" />
+    <ClCompile Include="reliableSummary.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

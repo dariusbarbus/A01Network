@@ -127,7 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LocalFile.cpp" />
     <ClCompile Include="MessageRouter.cpp" />
     <ClCompile Include="NetworkFile.cpp" />
     <ClCompile Include="PacketPacker.cpp" />
@@ -135,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\reliableSummary\ReliableSummary.h" />
+    <ClInclude Include="FileIO.h" />
     <ClInclude Include="Net.h" />
     <ClInclude Include="TransferProtocol.h" />
   </ItemGroup>

@@ -1,7 +1,77 @@
-//LET USER SELECT MODE
-	//CLIENT
-		//IF CLIENT SELECTED, ASK FOR ADITIONAL INFORMATION
-			//IP OF SERVER
-			//FILENAME
-	//SERVER
-//CALL UDP BASED ON MODE
+#include "Client.h"
+#include <iostream>
+#include <cstdlib> 
+
+
+bool getClientInformation(Client& client);
+
+
+
+
+int main()
+{
+	int choice;
+
+	// Display menu
+	std::cout << "Select an option:\n";
+	std::cout << "1. Client\n";
+	std::cout << "2. Server\n";
+	std::cout << "Enter your choice: ";
+	std::cin >> choice;
+
+	if(choice == 1)
+	{
+		Client client;
+		bool retValue = getClientInformation(client);
+		if(!retValue)
+		{
+			return 0;
+		}
+
+		//START UDP AS CLIENT
+		//string reliableUDP = "reliableUDP.exe " + client.getIpAddress() + " " + to_string(client.getPort()) + " " + client.getFilename();
+		//system(reliableUDP.c_str());
+	}
+	else if(choice == 2)
+	{
+		//START UDP AS SERVER
+		//string reliableUDP = "reliableUDP.exe";
+		//system(reliableUDP.c_str());
+	}
+	else
+	{
+		std::cout << "Invalid choice. Please select 1 or 2.\n";
+	}
+
+	return 0;
+}
+
+
+
+
+bool getClientInformation(Client& client)
+{
+	string ipAddress = " ";
+	int port = 0;
+	string filename = " ";
+
+
+	cout << "What's the IP ADDRESS\n";
+	cin >> ipAddress;
+
+	cout << "What's the PORT\n";
+	cin >> port;
+
+	cout << "What's the FILENAME\n";
+	cin >> filename;
+
+	bool isIpCorrect = client.setIpAddress(ipAddress);
+	bool isPortCorrect = client.setPort(port);
+	bool isFilenameCorrect = client.setFilename(filename);
+
+	if(!isIpCorrect || !isPortCorrect || !isFilenameCorrect)
+	{
+		return false;
+	}
+	return true;
+}

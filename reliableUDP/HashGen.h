@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include "md5.h"
-
+#include <cstring> 
 
 using namespace std;
 
@@ -13,16 +13,14 @@ using namespace std;
 class HashGen 
 {
 private:
-    string filename;
-    string hash;
+    char* filename;
+    char hash[33];
+    char hashCopy[33];
 
 public:
-    HashGen(string filename)
-    {
-        this->filename = filename;
-    }
+    HashGen(){}
 
-    void hashValue(const string& filename)
+    void hashValue(const char* filename)
     {
         const size_t chunkSize = 1024 * 1024; // 1 MB
         std::ifstream inputFile(filename, std::ios::binary);
@@ -32,7 +30,7 @@ public:
             return;
         }
 
-        MD5 md5; // Assuming you have an MD5 class like this
+        MD5 md5; 
         char* buffer = new char[chunkSize];
 
         while (!inputFile.eof()) {
@@ -48,15 +46,17 @@ public:
 
         inputFile.close();
 
+        string retVal = md5.getHash();
 
+        memcpy(hash, retVal.data(), retVal.size());
 
-        this->hash = md5.getHash();
 
     }
 
-    string getHash()
+    const char* getHash()
     {
-        return hash;
+        memcpy(hashCopy, hash, sizeof(hash));
+        return hashCopy;
     }
 
 

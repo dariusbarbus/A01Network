@@ -8,10 +8,11 @@
 
 #define HEADER_DELIM '|' //Delimeter used between message components
 #define HEADER_END ':' //Marks end of header
-#define MAX_MESSAGE_CHARS 255 //Max number of chars for general transfer protocol messages
+#define MAX_HEADER_CHARS 256 //Max number of chars for general transfer protocol messages
+#define PREFIX_CHARS 4
 
 //Error message
-#define ERROR_PREFIX "ERROR"
+#define ERROR_PREFIX "ERRR"
 #define MAX_ERROR_CODE_CHARS 2 
 //Error message (code)
 
@@ -28,7 +29,7 @@
 	//Filesize
 	//Filetype
 
-#define REQ_PREFIX "TRANSFER REQ"
+#define REQ_PREFIX "TREQ"
 #define MAX_FILE_NAME_CHARS 100 //TBD - consider generating shortform filename ID for data packets
 #define MAX_FILE_SIZE_CHARS 10 //Allows for a maximum file size of 10^9 bytes (i.e. 9.99 GB), which is large enough for our application
 
@@ -62,7 +63,7 @@
 
 
 //Final packet with hash
-#define FINAL_PREFIX "FINAL"
+#define HASH_PREFIX "HASH"
 //Header
 	//Filename
 	//Filesize
@@ -79,7 +80,7 @@
 //========
 
 //Response to Request
-#define REQ_PREFIX "REQUEST ACKED"
+#define ACK_PREFIX "RACK"
 	//Proceed
 #define START_TRANSFER "TRANSFER APPROVED"
 	//Don't Proceed
@@ -93,7 +94,7 @@
 
 
 //Response to final packet
-#define CONF_PREFIX "TRANSFER STATUS"
+#define CONF_PREFIX "CONF"
 	//Comparison to hash complete - file transferred successfully
 #define CONF_SUCCESS "SUCCESS"
 	//File transfer unsuccessful
@@ -118,22 +119,22 @@ typedef struct ClientState {
 } ClientState;
 
 typedef struct ServerState {
-	bool waitingForRequest;
 	bool requestReceived;
 	bool requestAckSent;
 	bool receivingData;
 	bool hashReceived;
 	bool confirmationSent;
-	bool error;
+	bool errorState;
 } ServerState;
 
 
 typedef struct FileInfo {
-	char fileName[MAX_FILE_NAME_CHARS];
-	char fileSize[MAX_FILE_SIZE_CHARS];
+	unsigned char fileName[MAX_FILE_NAME_CHARS];
+	unsigned char fileSize[MAX_FILE_SIZE_CHARS];
 	int fileType;
-	char transferID[MAX_TRANSFER_ID_BYTES];
-	char wholeFileHash[MAX_HASH_CHARS];
+	unsigned char transferID[MAX_TRANSFER_ID_BYTES];
+	unsigned char wholeFileHash[MAX_HASH_CHARS];
+	unsigned char transferSpeed[SPEED_MAX_CHARS];
 } FileInfo;
 
 

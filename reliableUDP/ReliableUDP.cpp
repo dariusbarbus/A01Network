@@ -177,17 +177,22 @@ int main(int argc, char* argv[])
 	if (mode == Client)
 		connection.Connect(address);
 
-	//Get the filesize
-		//Determine how many packets will be required based on file size, and data payload / per packet
 
-	//Call method from LocalFile.cpp to open file
+
+	else
+		connection.Listen();
+
+
+	//Get the filesize
+	//Determine how many packets will be required based on file size, and data payload / per packet
 
 	//Generate the whole-file hash
 
 	//Populate FileInfo struct with required metadata for transfer protocol (filename, filesize, hash)
 
-	else
-		connection.Listen();
+	//open input stream
+	ifstream inputFile((char*)fileInfo.fileName, ios::binary);
+
 
 	bool connected = false;
 	float sendAccumulator = 0.0f;
@@ -233,7 +238,6 @@ int main(int argc, char* argv[])
 		{
 			unsigned char packet[PacketSize];
 			memset(packet, 0, sizeof(packet));
-
 
 			//If mode == Server
 				//If transfer complete and hash is checked

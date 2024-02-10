@@ -11,14 +11,12 @@ using namespace std;
 class Client{
 private:
     string ipAddress;
-    int port;
     string filename;
 
 public:
     Client()
     {
         ipAddress = "";
-        port = 1;
         filename = "";
     }
 
@@ -27,10 +25,6 @@ public:
         return ipAddress;
     }
 
-    int getPort()
-    {
-        return port;
-    }
 
     string getFilename()
     {
@@ -50,17 +44,7 @@ public:
         return true;
     }
 
-    bool setPort(int port)
-    {
-        bool retValue = isPortValid(port);
-        if (!retValue)
-        {
-            return false;
-        }
-        this->port = port;
-        return true;
-    }
-
+            
     bool setFilename(string filename)
     {
         bool retValue = isFilenameValid(filename);
@@ -71,8 +55,6 @@ public:
         this->filename = filename;
         return true;
     }
-
-
 
     bool isIpAddressValid(string& ip)
     {

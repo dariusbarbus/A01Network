@@ -133,6 +133,7 @@ typedef struct FileInfo {
 	int fileType;
 	char transferID[MAX_TRANSFER_ID_BYTES];
 	char wholeFileHash[MAX_HASH_CHARS];
+	char transferSpeed[SPEED_MAX_CHARS];
 } FileInfo;
 
 

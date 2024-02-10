@@ -10,6 +10,9 @@
 bool createRequestPacket(char* packet, char* filename, char* fileSize, int fileType);
 int createDataPacket(char* packet, char* transferID);
 bool createHashPacket(char* packet, char* filename, char* filesize);
+bool createAckResponsePacket(char* packet, char* transferID);
+bool createTransferConfirmationPacket(char* packet, char* transferSpeed);
+void createErrorMessagePacket(char* packet);
 
 //determine what packent needs to be sent
 void assemblePacket(char* packetToSend, ClientState* clientState, ServerState* serverState, FileInfo* fileInfo, Mode mode)
@@ -80,12 +83,14 @@ void assemblePacket(char* packetToSend, ClientState* clientState, ServerState* s
 		if (serverState->requestReceived == true && serverState->requestAckSent == false) 
 		{
 			//send request ack
+			createAckResponsePacket(packetToSend, fileInfo->transferID);
 			serverState->requestAckSent == true;
 			return;
 		}
 		if (serverState->hashReceived == true && serverState->confirmationSent == false)
 		{
 			//send confirmation
+			createTransferConfirmationPacket(packetToSend, fileInfo->transferSpeed);
 			serverState->confirmationSent == true;
 			return;
 		}
@@ -116,4 +121,20 @@ bool createHashPacket(char* packet, char* filename, char* filesize)
 	//assemble packet
 
 	return true;
+}
+
+bool createAckResponsePacket(char* packet, char* transferID)
+{
+
+	return true;
+}
+
+bool createTransferConfirmationPacket(char* packet, char* transferSpeed)
+{
+	return true;
+}
+
+void createErrorMessagePacket(char* packet)
+{
+	return;
 }

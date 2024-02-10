@@ -17,12 +17,7 @@ void reviewPacketContents(unsigned char* packetReceived, ClientState* clientStat
 	unsigned char *headerItems[MAX_HEADER_ITEMS]; //allocate memory
 	for (int i = 0; i < MAX_HEADER_ITEMS; i++)
 	{
-		headerItems[i] = (unsigned char*)malloc(MAX_FILE_NAME_CHARS + 1);
-		if (headerItems[i] != NULL && i < MAX_HEADER_ITEMS)
-		{
-			memset(headerItems[i], '\0', MAX_HEADER_CHARS);
-		}
-		
+		headerItems[i] = (unsigned char*)malloc(MAX_FILE_NAME_CHARS + 1);	
 	}
 
 	//extract header from packet
@@ -85,10 +80,66 @@ void reviewPacketContents(unsigned char* packetReceived, ClientState* clientStat
 	{
 		free(headerItems[i]);
 	}
-
-
 	return;
 }
+
+bool parseTransferReqest(unsigned char** headerItems, FileInfo* fileinfo)
+{
+	//set filename
+	//set filesize
+	//set filetype
+	return true;
+}
+
+bool parseDataPackage(unsigned char** headerItems, unsigned char* packetReceived, FileInfo* fileInfo, unsigned char* lastHeaderElement)
+{
+	//convert payload size to int
+	//write to file
+	//update filesize counter
+
+	//if not all successful
+		//notify user, set error state
+
+	return true;
+}
+
+bool parseHash(unsigned char** headerItems)
+{
+	//compare hash sent with calculated hash
+	//if they match
+		//calculate file size for confirmation packet
+
+
+	return true;
+}
+
+bool parseRequestAck(unsigned char** headerItems)
+{
+	//if request has been approved
+		//start transfer
+	//else
+		//notify user, shut down program
+	
+	return true;
+}
+
+bool parseConfirmation(unsigned char** headerItems)
+{
+	//If hash confirmed
+		//transfer successful
+	//Else
+		//transfer unsuccessful
+
+	//notify user, shut down program
+	return true;
+}
+
+bool parseError(unsigned char** headerItems)
+{
+	//log error and exit program
+	return true;
+}
+
 
 //takes the buffer where the header is and the 2d array where the parsed items will be stored
 bool parseHeader(unsigned char* headerBuffer, unsigned char** headerItems)

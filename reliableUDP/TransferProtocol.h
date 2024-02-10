@@ -117,6 +117,7 @@ typedef struct ClientState {
 	bool hashSent;
 	bool confirmationReceived;
 	bool errorState;
+	int errorCode;
 } ClientState;
 
 typedef struct ServerState {
@@ -126,12 +127,13 @@ typedef struct ServerState {
 	bool hashReceived;
 	bool confirmationSent;
 	bool errorState;
+	int errorCode;
 } ServerState;
 
 
 typedef struct FileInfo {
 	unsigned char fileName[MAX_FILE_NAME_CHARS];
-	unsigned char fileSize[MAX_FILE_SIZE_CHARS];
+	long fileSize; //filesize in bytes
 	int fileType;
 	unsigned char transferID[MAX_TRANSFER_ID_BYTES];
 	unsigned char wholeFileHash[MAX_HASH_CHARS];

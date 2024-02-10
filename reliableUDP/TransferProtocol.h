@@ -105,7 +105,45 @@
 // TRANSFER STATUS|SUCCESS|0|10.534:
 
 
+typedef struct ClientState {
+	bool requestSent;
+	bool ackReceived;
+	bool sendingData;
+	bool hashSent;
+	bool confirmationReceived;
+	bool errorState;
+} ClientState;
+
+typedef struct ServerState {
+
+	bool requestReceived;
+	bool requestAckSent;
+	bool receivingData;
+	bool hashReceived;
+	bool confirmationSent;
+	bool error;
+} ServerState;
 
 
+typedef struct FileInfo {
+	char fileName[MAX_FILE_NAME_CHARS];
+	char fileSize[MAX_FILE_SIZE_CHARS];
+	fileType fileType;
+	char transferID[MAX_TRANSFER_ID_BYTES];
+	char wholeFileHash[MAX_HASH_CHARS];
+} FileInfo;
 
 
+//This exists in reliableUDP, may have to move it here if issues are encountered
+enum Mode
+{
+	Client,
+	Server
+};
+
+
+enum fileType
+{
+	ASCII,
+	Binary
+};

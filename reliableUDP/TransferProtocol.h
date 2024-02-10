@@ -8,7 +8,8 @@
 
 #define HEADER_DELIM '|' //Delimeter used between message components
 #define HEADER_END ':' //Marks end of header
-#define MAX_MESSAGE_CHARS 255 //Max number of chars for general transfer protocol messages
+#define MAX_HEADER_CHARS 255 //Max number of chars for general transfer protocol messages
+#define MAX_PREFIX_CHARS 
 
 //Error message
 #define ERROR_PREFIX "ERROR"
@@ -128,12 +129,12 @@ typedef struct ServerState {
 
 
 typedef struct FileInfo {
-	char fileName[MAX_FILE_NAME_CHARS];
-	char fileSize[MAX_FILE_SIZE_CHARS];
+	unsigned char fileName[MAX_FILE_NAME_CHARS];
+	unsigned char fileSize[MAX_FILE_SIZE_CHARS];
 	int fileType;
-	char transferID[MAX_TRANSFER_ID_BYTES];
-	char wholeFileHash[MAX_HASH_CHARS];
-	char transferSpeed[SPEED_MAX_CHARS];
+	unsigned char transferID[MAX_TRANSFER_ID_BYTES];
+	unsigned char wholeFileHash[MAX_HASH_CHARS];
+	unsigned char transferSpeed[SPEED_MAX_CHARS];
 } FileInfo;
 
 

@@ -7,15 +7,15 @@
 #define LAST_PACKET 1
 
 
-bool createRequestPacket(char* packet, char* filename, char* fileSize, int fileType);
-int createDataPacket(char* packet, char* transferID);
-bool createHashPacket(char* packet, char* filename, char* filesize);
-bool createAckResponsePacket(char* packet, char* transferID);
-bool createTransferConfirmationPacket(char* packet, char* transferSpeed);
-void createErrorMessagePacket(char* packet);
+bool createRequestPacket(unsigned char* packet, unsigned char* filename, unsigned char* fileSize, int fileType);
+int createDataPacket(unsigned char* packet, unsigned char* transferID);
+bool createHashPacket(unsigned char* packet, unsigned char* filename, unsigned char* filesize);
+bool createAckResponsePacket(unsigned char* packet, unsigned char* transferID);
+bool createTransferConfirmationPacket(unsigned char* packet, unsigned char* transferSpeed);
+void createErrorMessagePacket(unsigned char* packet);
 
 //determine what packent needs to be sent
-void assemblePacket(char* packetToSend, ClientState* clientState, ServerState* serverState, FileInfo* fileInfo, Mode mode)
+void assemblePacket(unsigned char* packetToSend, ClientState* clientState, ServerState* serverState, FileInfo* fileInfo, Mode mode)
 {
 	if (mode == Client)
 	{
@@ -99,14 +99,14 @@ void assemblePacket(char* packetToSend, ClientState* clientState, ServerState* s
 
 
 //create initial request packet
-bool createRequestPacket(char* packet, char* filename, char* fileSize, int fileType)
+bool createRequestPacket(unsigned char* packet, unsigned char* filename, unsigned char* fileSize, int fileType)
 {
 	return true;
 }
 
 //bool createDataPacket
 //returns -1 on failure, 0 on success, and 1 on last packet
-int createDataPacket(char* packet, char* transferID)
+int createDataPacket(unsigned char* packet, unsigned char* transferID)
 {
 	int packetStatus = 0;
 
@@ -114,7 +114,7 @@ int createDataPacket(char* packet, char* transferID)
 }
 
 
-bool createHashPacket(char* packet, char* filename, char* filesize)
+bool createHashPacket(unsigned char* packet, unsigned char* filename, unsigned char* filesize)
 {
 	//generate hash
 
@@ -123,18 +123,18 @@ bool createHashPacket(char* packet, char* filename, char* filesize)
 	return true;
 }
 
-bool createAckResponsePacket(char* packet, char* transferID)
+bool createAckResponsePacket(unsigned char* packet, unsigned char* transferID)
 {
 
 	return true;
 }
 
-bool createTransferConfirmationPacket(char* packet, char* transferSpeed)
+bool createTransferConfirmationPacket(unsigned char* packet, unsigned char* transferSpeed)
 {
 	return true;
 }
 
-void createErrorMessagePacket(char* packet)
+void createErrorMessagePacket(unsigned char* packet)
 {
 	return;
 }

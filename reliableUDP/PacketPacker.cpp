@@ -19,24 +19,27 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 {
 	if (mode == Client)
 	{
+		if (clientState->errorState == true)	//if an error state was set when receiving/parsing the last message
+		{
+			//send error message
+			return;
+		}
 		//if hashSent is true
 		if (clientState->hashSent == true)
 		{
 			return;
 		}
-
 		//create transfer request
 		if (clientState->requestSent == false)
 		{
 			if (!createRequestPacket(packetToSend, fileInfo->fileName, fileInfo->fileSize, fileInfo->fileType))
 			{
-				//create error packet
+				clientState->errorState == true; //error packet will be created next send loop
 				return;
 			}
 			clientState->requestSent == true;
 			return;
 		}
-
 		//if request was acknowledged and not sending data, send first data packet
 		if (clientState->ackReceived == true && clientState->sendingData == false) 
 		{
@@ -45,15 +48,13 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 			clientState->sendingData == true;
 			return;
 		}
-
 		//if last packet hasn't been sent, continue sending data
 		if (clientState->sendingData == true && clientState->lastPacketSent == false)
 		{
 			int packetStatus = createDataPacket(packetToSend, fileInfo->transferID);
 			if (packetStatus == DATAPACKET_FAILURE)
 			{
-				//create error packet
-				clientState->errorState == true;
+				clientState->errorState == true; //error packet will be created next send loop
 			}
 			else if (packetStatus == LAST_PACKET) //flip lastPacketSent based on size of packet (i.e. less than 210 bytes)
 			{
@@ -61,14 +62,12 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 			}
 			return;
 		}
-
 		//if last packet has been sent, send hash
 		if (clientState->lastPacketSent == true && clientState->hashSent == false) 
 		{
 			if (!createHashPacket(packetToSend, fileInfo->fileName, fileInfo->fileSize))
 			{
-				//create error packet
-				clientState->errorState == true;
+				clientState->errorState == true; //error packet will be created next send loop
 			}
 			clientState->hashSent == true;
 			return;
@@ -76,6 +75,12 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 	}
 	if (mode == Server)
 	{
+
+		if (serverState->errorState == true)	//if an error state was set when receiving/parsing the last message
+		{
+			//send error message
+			return;
+		}
 		if (serverState->requestReceived == false || serverState->confirmationSent == true) //if request not received, or transfer is done, keep waiting
 		{
 			return;

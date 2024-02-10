@@ -152,8 +152,8 @@ int main(int argc, char* argv[])
 			address = Address(a, b, c, d, ServerPort);
 		}
 
-		strcpy_s(fileInfo.fileName, argv[2]);
-
+		sscanf_s(argv[2], "%s", fileInfo.fileName, MAX_FILE_NAME_CHARS);
+		//Scan in file size and set file type here...
 	}
 
 	// initialize

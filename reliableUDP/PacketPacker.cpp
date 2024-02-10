@@ -1,11 +1,13 @@
 //Packs packets
 
 #include "TransferProtocol.h"
+#include <string.h>
 
 #define DATAPACKET_SUCCESS 0
 #define DATAPACKET_FAILURE -1
 #define LAST_PACKET 1
 
+#pragma warning(suppress : 4996) //for fopen
 
 bool createRequestPacket(unsigned char* packet, unsigned char* filename);
 int createDataPacket(unsigned char* packet, unsigned char* transferID);
@@ -119,7 +121,7 @@ bool createRequestPacket(unsigned char* packet, unsigned char* filename)
 int createDataPacket(unsigned char* packet, unsigned char* transferID)
 {
 	int packetStatus = 0;
-
+	
 	return packetStatus;
 }
 

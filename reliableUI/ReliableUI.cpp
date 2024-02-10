@@ -63,6 +63,8 @@ bool getClientInformation(Client& client)
 	bool isIpCorrect = client.setIpAddress(ipAddress);
 	bool isFilenameCorrect = client.setFilename(filename);
 
+	//get filesize
+
 	if(!isIpCorrect || !isFilenameCorrect)
 	{
 		return false;

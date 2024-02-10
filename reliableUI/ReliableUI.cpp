@@ -52,9 +52,7 @@ int main()
 bool getClientInformation(Client& client)
 {
 	string ipAddress = " ";
-	int port = 0;
 	string filename = " ";
-
 
 	cout << "What's the IP ADDRESS\n";
 	cin >> ipAddress;

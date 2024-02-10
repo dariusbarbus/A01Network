@@ -2,6 +2,7 @@
 #include <string.h>
 
 
+
 #define PREFIX_MATCH 0
 
 //review packet contents
@@ -72,3 +73,6 @@ void reviewPacketContents(unsigned char* packetReceived, ClientState* clientStat
 		}
 	}
 }
+
+
+

@@ -8,9 +8,10 @@
 
 #define HEADER_DELIM '|' //Delimeter used between message components
 #define HEADER_END ':' //Marks end of header
-#define MAX_HEADER_CHARS 256 //Max number of chars for general transfer protocol messages
+#define MAX_HEADER_CHARS 255 //Max number of chars for general transfer protocol messages
 #define MAX_HEADER_ITEMS 4 //Max number of items that can appear in a header (used for parsing messages)
 #define PREFIX_CHARS 4
+#define PACKET_SIZE 256
 
 //Error message
 #define ERROR_PREFIX "ERRR"
@@ -34,6 +35,7 @@
 #define MAX_FILE_NAME_CHARS 100 //TBD - consider generating shortform filename ID for data packets
 #define MAX_FILE_SIZE_CHARS 10 //Allows for a maximum file size of 10^9 bytes (i.e. 9.99 GB), which is large enough for our application
 
+
 	//Allowable Filetypes
 #define ASCII_FILE "ASCII"
 #define ASCII 0
@@ -51,8 +53,9 @@
 //Data packet
 //Header
 #define DATA_PREFIX "DATA"
-#define MAX_DATA_HEADER_BYTES 30 //Max header length for data transfer packets
-#define SIZE_OF_PAYLOAD 3 //Max payload chars (10^2 bytes)
+#define MAX_DATA_HEADER_BYTES 20 //Max header length for data transfer packets
+#define SIZE_OF_PAYLOAD_CHARS 3 //Max payload chars (10^2 bytes)
+#define MAX_PAYLOAD_BYTES 210
 	//Transfer Identifier
 	//Size of Payload (bytes)
 //Payload
@@ -133,8 +136,7 @@ typedef struct ServerState {
 
 typedef struct FileInfo {
 	unsigned char fileName[MAX_FILE_NAME_CHARS];
-	long fileSize; //filesize in bytes
-	int fileType;
+	unsigned long fileSize; //filesize in bytes
 	unsigned char transferID[MAX_TRANSFER_ID_BYTES];
 	unsigned char wholeFileHash[MAX_HASH_CHARS];
 	unsigned char transferSpeed[SPEED_MAX_CHARS];

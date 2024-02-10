@@ -7,9 +7,9 @@
 #define LAST_PACKET 1
 
 
-bool createRequestPacket(unsigned char* packet, unsigned char* filename, unsigned char* fileSize, int fileType);
+bool createRequestPacket(unsigned char* packet, unsigned char* filename);
 int createDataPacket(unsigned char* packet, unsigned char* transferID);
-bool createHashPacket(unsigned char* packet, unsigned char* filename, unsigned char* filesize);
+bool createHashPacket(unsigned char* packet, unsigned char* filename);
 bool createAckResponsePacket(unsigned char* packet, unsigned char* transferID);
 bool createTransferConfirmationPacket(unsigned char* packet, unsigned char* transferSpeed);
 void createErrorMessagePacket(unsigned char* packet);
@@ -25,19 +25,21 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 			return;
 		}
 		//if hashSent is true
-		if (clientState->hashSent == true)
+		else if (clientState->hashSent == true)
 		{
 			return;
 		}
 		//create transfer request
-		if (clientState->requestSent == false)
+		else if (clientState->requestSent == false)
 		{
-			if (!createRequestPacket(packetToSend, fileInfo->fileName, fileInfo->fileSize, fileInfo->fileType))
+			if (!createRequestPacket(packetToSend, fileInfo->fileName))
 			{
 				clientState->errorState = true; //error packet will be created next send loop
-				return;
 			}
-			clientState->requestSent = true;
+			else
+			{
+				clientState->requestSent = true;
+			}
 			return;
 		}
 		//if request was acknowledged and not sending data, send first data packet
@@ -65,11 +67,14 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 		//if last packet has been sent, send hash
 		if (clientState->lastPacketSent == true && clientState->hashSent == false) 
 		{
-			if (!createHashPacket(packetToSend, fileInfo->fileName, fileInfo->fileSize))
+			if (!createHashPacket(packetToSend, fileInfo->fileName))
 			{
 				clientState->errorState = true; //error packet will be created next send loop
 			}
+			else
+			{
 			clientState->hashSent = true;
+			}
 			return;
 		}
 	}
@@ -104,7 +109,7 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 
 
 //create initial request packet
-bool createRequestPacket(unsigned char* packet, unsigned char* filename, unsigned char* fileSize, int fileType)
+bool createRequestPacket(unsigned char* packet, unsigned char* filename)
 {
 	return true;
 }
@@ -119,7 +124,7 @@ int createDataPacket(unsigned char* packet, unsigned char* transferID)
 }
 
 
-bool createHashPacket(unsigned char* packet, unsigned char* filename, unsigned char* filesize)
+bool createHashPacket(unsigned char* packet, unsigned char* filename)
 {
 	//generate hash
 

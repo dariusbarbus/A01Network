@@ -87,7 +87,6 @@ bool parseTransferReqest(unsigned char** headerItems, FileInfo* fileinfo)
 {
 	//set filename
 	//set filesize
-	//set filetype
 	return true;
 }
 

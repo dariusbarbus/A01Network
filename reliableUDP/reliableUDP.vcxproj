@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="md5.cpp" />
     <ClCompile Include="MessageRouter.cpp" />
     <ClCompile Include="NetworkFile.cpp" />
     <ClCompile Include="PacketPacker.cpp" />
@@ -134,6 +135,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileIO.h" />
+    <ClInclude Include="HashGen.h" />
+    <ClInclude Include="md5.h" />
     <ClInclude Include="Net.h" />
     <ClInclude Include="ReliableSummary.h" />
     <ClInclude Include="TransferProtocol.h" />

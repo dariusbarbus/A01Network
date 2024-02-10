@@ -8,8 +8,10 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cstring>
 
 #include "Net.h"
+#include "TransferProtocol.h"
 
 //#define SHOW_ACKS
 
@@ -135,14 +137,9 @@ int main(int argc, char* argv[])
 		Server
 	};
 
-	//struct 
-	//{
-	//	char filename[strlen(argv[2] + 1)];
-	//} fileData;	
-
+	FileInfo fileInfo;
 	Mode mode = Server;
 	Address address;
-	//FileData fileInfo
 
 	if (argc >= 2) //the ip - filename
 	{
@@ -155,8 +152,7 @@ int main(int argc, char* argv[])
 			address = Address(a, b, c, d, ServerPort);
 		}
 
-		string filename = argv[2];
-		cout << filename << endl;
+		strcpy_s(fileInfo.fileName, argv[2]);
 
 	}
 

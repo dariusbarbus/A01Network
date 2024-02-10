@@ -118,7 +118,6 @@ typedef struct ClientState {
 } ClientState;
 
 typedef struct ServerState {
-	bool waitingForRequest;
 	bool requestReceived;
 	bool requestAckSent;
 	bool receivingData;

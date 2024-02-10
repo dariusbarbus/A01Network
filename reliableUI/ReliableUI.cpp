@@ -29,7 +29,7 @@ int main()
 		}
 
 		//START UDP AS CLIENT
-		string reliableUDP = "reliableUDP.exe " + client.getIpAddress() + " " + to_string(client.getPort()) + " " + client.getFilename();
+		string reliableUDP = "reliableUDP.exe " + client.getIpAddress() + " " + client.getFilename();
 		system(reliableUDP.c_str());
 	}
 	else if(choice == 2)

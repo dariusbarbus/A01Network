@@ -29,14 +29,14 @@ int main()
 		}
 
 		//START UDP AS CLIENT
-		//string reliableUDP = "reliableUDP.exe " + client.getIpAddress() + " " + to_string(client.getPort()) + " " + client.getFilename();
-		//system(reliableUDP.c_str());
+		string reliableUDP = "reliableUDP.exe " + client.getIpAddress() + " " + client.getFilename();
+		system(reliableUDP.c_str());
 	}
 	else if(choice == 2)
 	{
 		//START UDP AS SERVER
-		//string reliableUDP = "reliableUDP.exe";
-		//system(reliableUDP.c_str());
+		string reliableUDP = "reliableUDP.exe";
+		system(reliableUDP.c_str());
 	}
 	else
 	{
@@ -59,17 +59,13 @@ bool getClientInformation(Client& client)
 	cout << "What's the IP ADDRESS\n";
 	cin >> ipAddress;
 
-	cout << "What's the PORT\n";
-	cin >> port;
-
 	cout << "What's the FILENAME\n";
 	cin >> filename;
 
 	bool isIpCorrect = client.setIpAddress(ipAddress);
-	bool isPortCorrect = client.setPort(port);
 	bool isFilenameCorrect = client.setFilename(filename);
 
-	if(!isIpCorrect || !isPortCorrect || !isFilenameCorrect)
+	if(!isIpCorrect || !isFilenameCorrect)
 	{
 		return false;
 	}

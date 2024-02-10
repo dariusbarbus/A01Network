@@ -20,12 +20,29 @@ void assemblePacket(char* packetToSend, ClientState* clientState, ServerState* s
 
 
 
-		//send data packet
+		//send first data packet
+		if (clientState->ackReceived && !clientState->sendingData) //if request was acknowledged and not sending data
+		{
+			//initialize data sending
+			//send first packet
+			clientState->sendingData == true;
+			return;
+		}
+
+		//continue sending data
+		if (clientState->sendingData)
+		{
+			//send data
+
+			//flip lastPacketSent based on size of packet (i.e. less than 210 bytes)
+			return;
+		}
+
+
+		//send final packet with hash
 
 
 
-
-		//send final packet with has
 	}
 	if (mode == Server)
 	{
@@ -42,7 +59,7 @@ void assemblePacket(char* packetToSend, ClientState* clientState, ServerState* s
 
 bool createRequestPacket(char* packet, char* filename, char* fileSize, char* fileType)
 {
-
+	return true;
 }
 
 //bool createDataPacket

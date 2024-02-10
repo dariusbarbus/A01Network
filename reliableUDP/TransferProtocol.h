@@ -9,6 +9,7 @@
 #define HEADER_DELIM '|' //Delimeter used between message components
 #define HEADER_END ':' //Marks end of header
 #define MAX_HEADER_CHARS 256 //Max number of chars for general transfer protocol messages
+#define MAX_HEADER_ITEMS 4 //Max number of items that can appear in a header (used for parsing messages)
 #define PREFIX_CHARS 4
 
 //Error message

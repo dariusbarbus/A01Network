@@ -11,6 +11,8 @@ void reviewPacketContents(unsigned char* packetReceived, ClientState* clientStat
 	unsigned char headerBuffer[MAX_HEADER_CHARS] = { 0 };
 	unsigned char* lastHeaderElemPtr = NULL; //used to mark the end of the header
 
+	unsigned char headerItems[MAX_HEADER_ITEMS][MAX_FILE_NAME_CHARS] = { 0, 0 };
+
 	//extract header from packet
 	memcpy(headerBuffer, packetReceived, MAX_HEADER_CHARS); //copy packet to header buffer
 	//find the ':' delimeter marking the end of the header and replace with null char to facilitate parsing
@@ -23,6 +25,7 @@ void reviewPacketContents(unsigned char* packetReceived, ClientState* clientStat
 			break;
 		}
 	}
+
 
 	if (mode == Client)
 	{
@@ -40,8 +43,7 @@ void reviewPacketContents(unsigned char* packetReceived, ClientState* clientStat
 		}
 		else
 		{
-			//if there's no match, send error message?
-			clientState->errorState == true;
+			clientState->errorState == true; //if there's no match, message was not consistent with protocol
 			return;
 		}
 
@@ -65,11 +67,34 @@ void reviewPacketContents(unsigned char* packetReceived, ClientState* clientStat
 			//parse hash packet message
 
 			serverState->hashReceived == true;
+			return;
 		}
 		else
 		{
-			serverState->errorState == true;
+			serverState->errorState == true; //if there's no match, message was not consistent with protocol
 			return;
+		}
+	}
+}
+
+//takes the buffer where the header is and the 2d array where the parsed items will be stored
+bool parseHeader(unsigned char* headerBuffer, unsigned char** headerItems)
+{
+	unsigned char* scanPtr = headerBuffer;
+	for (int i = 0; i < MAX_HEADER_ITEMS; i++)
+	{
+		unsigned char* printPtr = headerItems[i]; //set print pointer to first element of the ith array
+		while (*scanPtr != HEADER_DELIM && *scanPtr != '\0')
+		{
+			*printPtr = *scanPtr;
+			printPtr++;
+			scanPtr++;
+		}
+		*printPtr = '\0'; //set last element of string to null pointer
+
+		if (*scanPtr == '\0')
+		{
+			i = MAX_HEADER_ITEMS; //if end of header buffer is reached, set above limit to break out of loop
 		}
 	}
 }

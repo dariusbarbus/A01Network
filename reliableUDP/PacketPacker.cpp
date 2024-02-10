@@ -1,6 +1,7 @@
 //Packs packets
 
 #include "TransferProtocol.h"
+#include "HashGen.h"
 
 #define DATAPACKET_SUCCESS 0
 #define DATAPACKET_FAILURE -1
@@ -127,6 +128,13 @@ int createDataPacket(unsigned char* packet, unsigned char* transferID)
 bool createHashPacket(unsigned char* packet, unsigned char* filename)
 {
 	//generate hash
+
+
+
+	HashGen hashGen;
+	hashGen.hashValue((char*)filename);
+
+
 
 	//assemble packet
 

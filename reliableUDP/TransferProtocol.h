@@ -124,7 +124,7 @@ typedef struct ServerState {
 	bool receivingData;
 	bool hashReceived;
 	bool confirmationSent;
-	bool error;
+	bool errorState;
 } ServerState;
 
 

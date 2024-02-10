@@ -34,10 +34,10 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 		{
 			if (!createRequestPacket(packetToSend, fileInfo->fileName, fileInfo->fileSize, fileInfo->fileType))
 			{
-				clientState->errorState == true; //error packet will be created next send loop
+				clientState->errorState = true; //error packet will be created next send loop
 				return;
 			}
-			clientState->requestSent == true;
+			clientState->requestSent = true;
 			return;
 		}
 		//if request was acknowledged and not sending data, send first data packet
@@ -45,7 +45,7 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 		{
 			//initialize data sending process
 			//send first packet
-			clientState->sendingData == true;
+			clientState->sendingData = true;
 			return;
 		}
 		//if last packet hasn't been sent, continue sending data
@@ -54,11 +54,11 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 			int packetStatus = createDataPacket(packetToSend, fileInfo->transferID);
 			if (packetStatus == DATAPACKET_FAILURE)
 			{
-				clientState->errorState == true; //error packet will be created next send loop
+				clientState->errorState = true; //error packet will be created next send loop
 			}
 			else if (packetStatus == LAST_PACKET) //flip lastPacketSent based on size of packet (i.e. less than 210 bytes)
 			{
-				clientState->lastPacketSent == true;
+				clientState->lastPacketSent = true;
 			}
 			return;
 		}
@@ -67,9 +67,9 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 		{
 			if (!createHashPacket(packetToSend, fileInfo->fileName, fileInfo->fileSize))
 			{
-				clientState->errorState == true; //error packet will be created next send loop
+				clientState->errorState = true; //error packet will be created next send loop
 			}
-			clientState->hashSent == true;
+			clientState->hashSent = true;
 			return;
 		}
 	}
@@ -89,14 +89,14 @@ void assemblePacket(unsigned char* packetToSend, ClientState* clientState, Serve
 		{
 			//send request ack
 			createAckResponsePacket(packetToSend, fileInfo->transferID);
-			serverState->requestAckSent == true;
+			serverState->requestAckSent = true;
 			return;
 		}
 		if (serverState->hashReceived == true && serverState->confirmationSent == false)
 		{
 			//send confirmation
 			createTransferConfirmationPacket(packetToSend, fileInfo->transferSpeed);
-			serverState->confirmationSent == true;
+			serverState->confirmationSent = true;
 			return;
 		}
 	}

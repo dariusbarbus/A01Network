@@ -34,7 +34,9 @@
 
 	//Allowable Filetypes
 #define ASCII_FILE "ASCII"
+#define ASCII 0
 #define BINARY_FILE "BIN"
+#define BINARY 1
 
 //Sample request for transferring the following file
 // Filename: myFile.jpg
@@ -109,13 +111,14 @@ typedef struct ClientState {
 	bool requestSent;
 	bool ackReceived;
 	bool sendingData;
+	bool lastPacketSent;
 	bool hashSent;
 	bool confirmationReceived;
 	bool errorState;
 } ClientState;
 
 typedef struct ServerState {
-
+	bool waitingForRequest;
 	bool requestReceived;
 	bool requestAckSent;
 	bool receivingData;
@@ -128,7 +131,7 @@ typedef struct ServerState {
 typedef struct FileInfo {
 	char fileName[MAX_FILE_NAME_CHARS];
 	char fileSize[MAX_FILE_SIZE_CHARS];
-	fileType fileType;
+	int fileType;
 	char transferID[MAX_TRANSFER_ID_BYTES];
 	char wholeFileHash[MAX_HASH_CHARS];
 } FileInfo;
@@ -141,9 +144,3 @@ enum Mode
 	Server
 };
 
-
-enum fileType
-{
-	ASCII,
-	Binary
-};

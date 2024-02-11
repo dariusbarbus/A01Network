@@ -1,3 +1,12 @@
+/*
+* TITLE :  Portable C++ hashing library
+* AUTHOR :  Stephan Brumme
+* DATE : 2014-02-05
+* VERSION : 8
+* AVAILABIILTY : https://github.com/stbrumme/hash-library
+*/
+
+
 // //////////////////////////////////////////////////////////
 // md5.h
 // Copyright (c) 2014 Stephan Brumme. All rights reserved.

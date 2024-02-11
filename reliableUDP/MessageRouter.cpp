@@ -1,3 +1,10 @@
+// Filename: MessageRouter.cpp
+// Project: SENG2040 – ASSIGNMENT 1
+// By: Dario Simpson & Francis Knowles
+// Date: February 10, 2024
+// Description: functions used for the protocol
+
+
 #include "TransferProtocol.h"
 #include <string.h>
 #include <stdlib.h>
@@ -8,7 +15,19 @@
 
 bool parseHeader(unsigned char* headerBuffer, unsigned char** headerItems);
 
-//review packet contents
+
+
+//
+// FUNCTION    : reviewPacketContents
+// DESCRIPTION : Reviews the contents of a packet and updates the client or server state accordingly.
+// PARAMETERS  :
+//      unsigned char* packetReceived : Pointer to the received packet buffer.
+//      ClientState* clientState : Pointer to the client state.
+//      ServerState* serverState : Pointer to the server state.
+//      FileInfo* fileInfo : Pointer to the file information.
+//      Mode mode : The mode of operation (Client or Server).
+// RETURNS     : None
+//
 void reviewPacketContents(unsigned char* packetReceived, ClientState* clientState, ServerState* serverState, FileInfo* fileInfo, Mode mode)
 {
 	unsigned char headerBuffer[MAX_HEADER_CHARS] = { 0 };
@@ -83,6 +102,16 @@ void reviewPacketContents(unsigned char* packetReceived, ClientState* clientStat
 	return;
 }
 
+
+
+//
+// FUNCTION    : parseTransferReqest
+// DESCRIPTION : Parses the transfer request packet contents.
+// PARAMETERS  :
+//      unsigned char** headerItems : Pointer to the parsed header items.
+//      FileInfo* fileinfo : Pointer to the file information.
+// RETURNS     : bool - True if parsing is successful, false otherwise.
+//
 bool parseTransferReqest(unsigned char** headerItems, FileInfo* fileinfo)
 {
 	//set filename
@@ -90,6 +119,18 @@ bool parseTransferReqest(unsigned char** headerItems, FileInfo* fileinfo)
 	return true;
 }
 
+
+
+//
+// FUNCTION    : parseDataPackage
+// DESCRIPTION : Parses the data package contents.
+// PARAMETERS  :
+//      unsigned char** headerItems : Pointer to the parsed header items.
+//      unsigned char* packetReceived : Pointer to the received packet buffer.
+//      FileInfo* fileInfo : Pointer to the file information.
+//      unsigned char* lastHeaderElement : Pointer to the last header element.
+// RETURNS     : bool - True if parsing is successful, false otherwise.
+//
 bool parseDataPackage(unsigned char** headerItems, unsigned char* packetReceived, FileInfo* fileInfo, unsigned char* lastHeaderElement)
 {
 	//convert payload size to int
@@ -102,6 +143,16 @@ bool parseDataPackage(unsigned char** headerItems, unsigned char* packetReceived
 	return true;
 }
 
+
+
+
+//
+// FUNCTION    : parseHash
+// DESCRIPTION : Parses the hash packet contents.
+// PARAMETERS  :
+//      unsigned char** headerItems : Pointer to the parsed header items.
+// RETURNS     : bool - True if parsing is successful, false otherwise.
+//
 bool parseHash(unsigned char** headerItems)
 {
 	//compare hash sent with calculated hash
@@ -112,6 +163,15 @@ bool parseHash(unsigned char** headerItems)
 	return true;
 }
 
+
+
+//
+// FUNCTION    : parseRequestAck
+// DESCRIPTION : Parses the request acknowledgment packet contents.
+// PARAMETERS  :
+//      unsigned char** headerItems : Pointer to the parsed header items.
+// RETURNS     : bool - True if parsing is successful, false otherwise.
+//
 bool parseRequestAck(unsigned char** headerItems)
 {
 	//if request has been approved
@@ -122,6 +182,15 @@ bool parseRequestAck(unsigned char** headerItems)
 	return true;
 }
 
+
+
+//
+// FUNCTION    : parseConfirmation
+// DESCRIPTION : Parses the transfer confirmation packet contents.
+// PARAMETERS  :
+//      unsigned char** headerItems : Pointer to the parsed header items.
+// RETURNS     : bool - True if parsing is successful, false otherwise.
+//
 bool parseConfirmation(unsigned char** headerItems)
 {
 	//If hash confirmed
@@ -133,6 +202,15 @@ bool parseConfirmation(unsigned char** headerItems)
 	return true;
 }
 
+
+
+//
+// FUNCTION    : parseError
+// DESCRIPTION : Parses the error packet contents.
+// PARAMETERS  :
+//      unsigned char** headerItems : Pointer to the parsed header items.
+// RETURNS     : bool - True if parsing is successful, false otherwise.
+//
 bool parseError(unsigned char** headerItems)
 {
 	//log error and exit program
@@ -140,7 +218,14 @@ bool parseError(unsigned char** headerItems)
 }
 
 
-//takes the buffer where the header is and the 2d array where the parsed items will be stored
+//
+// FUNCTION    : parseHeader
+// DESCRIPTION : Parses the header of a packet.
+// PARAMETERS  :
+//      unsigned char* headerBuffer : Pointer to the header buffer.
+//      unsigned char** headerItems : Pointer to the parsed header items.
+// RETURNS     : bool - True if parsing is successful, false otherwise.
+//
 bool parseHeader(unsigned char* headerBuffer, unsigned char** headerItems)
 {
 	unsigned char* scanPtr = headerBuffer;
@@ -162,6 +247,3 @@ bool parseHeader(unsigned char* headerBuffer, unsigned char** headerItems)
 	}
 	return true;
 }
-
-
-

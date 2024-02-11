@@ -1,3 +1,10 @@
+// Filename: TransferProtocol.h
+// Project: SENG2040 – ASSIGNMENT 1
+// By: Dario Simpson & Francis Knowles
+// Date: February 10, 2024
+// Description: Header file
+
+
 #pragma once
 
 //Outline of protocol, client/server messages, etc.

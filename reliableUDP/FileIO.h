@@ -1,19 +1,21 @@
+// Filename: FileIO.h 
+// Project: SENG2040 – ASSIGNMENT 1
+// By: Dario Simpson & Francis Knowles
+// Date: February 10, 2024
+// Description: Class file 
+
 #pragma once
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 
-
-
 using namespace std;
 
-
-//FIRST WE USE setExtension to get the file extension and properly write the following file
-//need to get actual file name instead of using "newFile"
-
-
-
+/* -- CLASS COMMENT --
+	NAME    :   FileIO
+	PURPOSE :   Provides functionality for file input and output operations.
+*/
 class FileIO
 {
 private:
@@ -21,12 +23,26 @@ private:
 	string extension;
 
 public:
+	//
+// METHOD      : FileIO (constructor)
+// DESCRIPTION : Initializes a FileIO object with default values.
+// PARAMETERS  : None
+// RETURNS     : None
+//
 	FileIO()
 	{
 		filename = "";
 		extension = "";
 	}
 
+
+	//
+// METHOD      : setExtension
+// DESCRIPTION : Sets the extension of the filename.
+// PARAMETERS  : 
+//      string& filename : The filename to extract the extension from.
+// RETURNS     : None
+//
 	void setExtension(string& filename)
 	{
 		size_t dot = filename.rfind('.');
@@ -36,6 +52,15 @@ public:
 		}
 	}
 
+
+
+	//
+// METHOD      : processFile
+// DESCRIPTION : Processes a file by reading it in chunks and writing to a new file.
+// PARAMETERS  : 
+//      const string& filename : The name of the file to be processed.
+// RETURNS     : None
+//
 	void processFile(const string& filename)
 	{
 		ifstream inFile(filename, ios::binary);

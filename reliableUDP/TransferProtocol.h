@@ -120,7 +120,6 @@ typedef struct ClientState {
 	bool hashSent;
 	bool confirmationReceived;
 	bool errorState;
-	int errorCode;
 } ClientState;
 
 typedef struct ServerState {
@@ -130,7 +129,6 @@ typedef struct ServerState {
 	bool hashReceived;
 	bool confirmationSent;
 	bool errorState;
-	int errorCode;
 } ServerState;
 
 

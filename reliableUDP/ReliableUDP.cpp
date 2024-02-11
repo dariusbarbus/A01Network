@@ -11,9 +11,14 @@
 #include <cstring>
 
 #include "Net.h"
+#include "HashGen.h"
 #include "TransferProtocol.h"
 
 //#define SHOW_ACKS
+
+#pragma warning(suppress : 4996)
+
+
 
 using namespace std;
 using namespace net;
@@ -137,6 +142,8 @@ int main(int argc, char* argv[])
 		Server
 	};
 
+
+	HashGen hashGen;
 	FileInfo fileInfo;
 	Mode mode = Server;
 	Address address;
@@ -191,8 +198,35 @@ int main(int argc, char* argv[])
 	//Populate FileInfo struct with required metadata for transfer protocol (filename, filesize, hash)
 
 	//open input stream
+	ifstream in((char*)fileInfo.fileName, ios::binary |ios::ate);
+	size_t bytesToRead = in.tellg();
+	in.close();
+
 	ifstream inputFile((char*)fileInfo.fileName, ios::binary);
 
+
+	FILE* file = NULL;
+	ofstream outFile;
+
+
+	if(mode == Client)
+	{
+		hashGen.hashValue((char*)fileInfo.fileName);
+		const char* hash = hashGen.getHash();
+
+		cout << "Sent Hash: " << hash << endl;
+	}
+
+
+
+/*	size_t bytesToRead ;
+	bytesToRead = inputFile.gcount(); */// Actual bytes read, important for handling the last chunk
+
+
+	if(mode == Server)
+	{
+		outFile = ofstream("new.txt", ios::binary);
+	}
 
 	bool connected = false;
 	float sendAccumulator = 0.0f;
@@ -234,6 +268,9 @@ int main(int argc, char* argv[])
 
 		sendAccumulator += DeltaTime;
 
+
+
+
 		while (sendAccumulator > 1.0f / sendRate)
 		{
 			unsigned char packet[PacketSize];
@@ -246,86 +283,131 @@ int main(int argc, char* argv[])
 
 			if (mode == Client)
 			{
-				if (clientState.errorState == true)	//if an error state was set when receiving/parsing the last message
-				{
-					//send error message
-					return 0;
-				}
-				//create transfer request
-				else if (clientState.requestSent == false)
-				{
-					if (!createRequestPacket(packetToSend, fileInfo.fileName))		
-					{
-						clientState.errorState = true; //error packet will be created next send loop
-					}
-					clientState.requestSent = true;
-				}
-				//if request was acknowledged and not sending data, send first data packet
-				else if (clientState.ackReceived == true && clientState.sendingData == false)
-				{
-					//initialize data sending process
-					//send first packet
-					clientState.sendingData = true;
+				
+				inputFile.read(reinterpret_cast<char*>(packet), PacketSize);
 
-					//Load packet
-						//Header 
-							//Filename
-							//Filesize
-						//Payload
-						//Hash
-				}
-				//if last packet hasn't been sent, continue sending data
-				else if (clientState.sendingData == true && clientState.lastPacketSent == false)
-				{
-					if (packetStatus == DATAPACKET_FAILURE)
-					{
-						clientState.errorState = true; //error packet will be created next send loop
-						return 0;
-					}
-					else if (packetStatus == LAST_PACKET) //flip lastPacketSent based on size of packet (i.e. less than 210 bytes)
-					{
-						clientState.lastPacketSent = true;
-					}
-				}
-				//if last packet has been sent, send hash
-				else if (clientState.lastPacketSent == true && clientState.hashSent == false)
-				{
-					if (!createHashPacket(packetToSend, fileInfo.fileName))
-					{
-						clientState.errorState = true; //error packet will be created next send loop
-					}
-					else
-					{
-						clientState.hashSent = true;
-					}
-					return 0;
-				}
+
+
+				//while (bytesToRead > PacketSize)
+				//{
+				//	inputFile.read(reinterpret_cast<char*>(packet), PacketSize);
+				//	bytesToRead -= PacketSize;
+				//}
+
+
+				//inputFile.read(reinterpret_cast<char*>(packet), PacketSize);
+
+				//printf("%llu", bytesToRead);
+
+				//printf("%llu", bytesToRead);
+				//printf("%s", packet);
+
+
+				//if(inputFile.eof())
+				//{
+				//	break;
+				//}
+
+
+
+				//while(bytesRead >= 0)
+				//{
+				//	inputFile.read(reinterpret_cast<char*>(packet), PacketSize);
+				//}
+
+
+				//while(bytesToRead >= 0)
+				//{
+				//	inputFile.read(reinterpret_cast<char*>(packet), PacketSize);
+				//	bytesToRead -= PacketSize;
+				//}
+
+
+
+
+
+
+				//if (clientState.errorState == true)	//if an error state was set when receiving/parsing the last message
+				//{
+				//	//send error message
+				//	return 0;
+				//}
+				////create transfer request
+				//else if (clientState.requestSent == false)
+				//{
+				//	if (!createRequestPacket(packetToSend, fileInfo.fileName))
+				//	{
+				//		clientState.errorState = true; //error packet will be created next send loop
+				//	}
+				//	clientState.requestSent = true;
+				//}
+				////if request was acknowledged and not sending data, send first data packet
+				//else if (clientState.ackReceived == true && clientState.sendingData == false)
+				//{
+				//	//initialize data sending process
+				//	//send first packet
+				//	clientState.sendingData = true;
+
+				//	//Load packet
+				//		//Header 
+				//			//Filename
+				//			//Filesize
+				//		//Payload
+				//		//Hash
+				//}
+				////if last packet hasn't been sent, continue sending data
+				//else if (clientState.sendingData == true && clientState.lastPacketSent == false)
+				//{
+				//	if (packetStatus == DATAPACKET_FAILURE)
+				//	{
+				//		clientState.errorState = true; //error packet will be created next send loop
+				//		return 0;
+				//	}
+				//	else if (packetStatus == LAST_PACKET) //flip lastPacketSent based on size of packet (i.e. less than 210 bytes)
+				//	{
+				//		clientState.lastPacketSent = true;
+				//	}
+				//}
+				////if last packet has been sent, send hash
+				//else if (clientState.lastPacketSent == true && clientState.hashSent == false)
+				//{
+				//	if (!createHashPacket(packetToSend, fileInfo.fileName))
+				//	{
+				//		clientState.errorState = true; //error packet will be created next send loop
+				//	}
+				//	else
+				//	{
+				//		clientState.hashSent = true;
+				//	}
+				//	return 0;
+				//}
 			}
 			if (mode == Server)
 			{
 
-				if (serverState.errorState == true)	//if an error state was set when receiving/parsing the last message
-				{
-					//send error message
-					return 0;
-				}
-				else if (serverState.requestReceived == false || serverState.confirmationSent == true) //if request not received, or transfer is done, keep waiting
-				{
-					//wait
-					continue;
-				}
-				else if (serverState.requestReceived == true && serverState.requestAckSent == false)
-				{
-					//send request ack
-					createAckResponsePacket(packetToSend, fileInfo.transferID);
-					serverState.requestAckSent = true;
-				}
-				else if (serverState.hashReceived == true && serverState.confirmationSent == false)
-				{
-					//send confirmation
-					createTransferConfirmationPacket(packetToSend, fileInfo.transferSpeed);
-					serverState.confirmationSent = true;
-				}
+
+				//if (serverState.errorState == true)	//if an error state was set when receiving/parsing the last message
+				//{
+				//	//send error message
+				//	return 0;
+				//}
+				//else if (serverState.requestReceived == false || serverState.confirmationSent == true) //if request not received, or transfer is done, keep waiting
+				//{
+				//	//wait
+				//	continue;
+				//}
+				//else if (serverState.requestReceived == true && serverState.requestAckSent == false)
+				//{
+				//	//send request ack
+				//	createAckResponsePacket(packetToSend, fileInfo.transferID);
+				//	serverState.requestAckSent = true;
+				//}
+				//else if (serverState.hashReceived == true && serverState.confirmationSent == false)
+				//{
+				//	//send confirmation
+				//	createTransferConfirmationPacket(packetToSend, fileInfo.transferSpeed);
+				//	serverState.confirmationSent = true;
+				//}
 			}
 
 
@@ -340,12 +422,39 @@ int main(int argc, char* argv[])
 			if (bytes_read == 0)
 				break;
 
-			
+
+
+			outFile.write(reinterpret_cast<const char*>(packet), PacketSize);
+
+
+			//while(bytesToRead > 0)
+			//{
+			//	outFile.write(reinterpret_cast<const char*>(packet), PacketSize);
+
+			//	bytesToRead -= PacketSize;
+			//}
+
+			//printf("%s", packet);
+
+			//for(int i = 0; i < 256; i++)
+			//{
+			//	fprintf((FILE*)outFile, (char*)packet[i]);
+			//}
+
+			//std::vector<unsigned char> received_packets;
+
+			//// Open the output file
+			//std::ofstream outfile("new.txt", std::ios::binary);
+
+			//for (const auto& packet : received_packets) {
+			//	outfile.write(reinterpret_cast<const char*>(&packet), sizeof(packet));
+			//}
+
 			//call to message router method to parse header
-			
-			
-			
-			
+
+
+
+
 			//If mode == Server
 				//If first packet
 					// Create file to write to
@@ -410,3 +519,4 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+

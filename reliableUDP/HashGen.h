@@ -1,3 +1,10 @@
+// Filename: HashGen.h
+// Project: SENG2040 – ASSIGNMENT 1
+// By: Dario Simpson & Francis Knowles
+// Date: February 10, 2024
+// Description: Class file 
+
+
 #pragma once
 
 #include <fstream>
@@ -10,6 +17,11 @@
 using namespace std;
 
 
+
+/* -- CLASS COMMENT --
+    NAME    :   HashGen
+    PURPOSE :   Generates hash values for files using the MD5 algorithm.
+*/
 class HashGen 
 {
 private:
@@ -18,8 +30,22 @@ private:
     char hashCopy[33];
 
 public:
+    //
+// METHOD      : HashGen (constructor)
+// DESCRIPTION : Initializes a HashGen object.
+// PARAMETERS  : None
+// RETURNS     : None
+//
     HashGen(){}
 
+
+    //
+// METHOD      : hashValue
+// DESCRIPTION : Generates the hash value for the specified file.
+// PARAMETERS  : 
+//      const char* filename : The name of the file to generate the hash for.
+// RETURNS     : None
+//
     void hashValue(const char* filename)
     {
         const size_t chunkSize = 1024 * 1024; // 1 MB
@@ -53,6 +79,13 @@ public:
 
     }
 
+
+    //
+// METHOD      : getHash
+// DESCRIPTION : Retrieves the generated hash value.
+// PARAMETERS  : None
+// RETURNS     : const char* - The generated hash value.
+//
     const char* getHash()
     {
         memcpy(hashCopy, hash, sizeof(hash));

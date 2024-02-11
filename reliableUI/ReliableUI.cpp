@@ -1,3 +1,9 @@
+// Filename: ReliableUI.cpp
+// Project: SENG2040 – ASSIGNMENT 1
+// By: Dario Simpson & Francis Knowles
+// Date: February 10, 2024
+// Description: UI
+
 #include "Client.h"
 #include <iostream>
 #include <cstdlib> 
@@ -13,57 +19,47 @@ int main()
 	int choice;
 
 	// Display menu
-	std::cout << "Select an option:\n";
-	std::cout << "1. Client\n";
-	std::cout << "2. Server\n";
-	std::cout << "Enter your choice: ";
-	std::cin >> choice;
+	std::cout << "Welcome to Reliable UDP\n";
 
-	if(choice == 1)
+	Client client;
+	bool retValue = getClientInformation(client);
+	if (!retValue)
 	{
-		Client client;
-		bool retValue = getClientInformation(client);
-		if(!retValue)
-		{
-			return 0;
-		}
+		return 0;
+	}
 
-		//START UDP AS CLIENT
-		string reliableUDP = "reliableUDP.exe " + client.getIpAddress() + " " + client.getFilename();
-		system(reliableUDP.c_str());
-	}
-	else if(choice == 2)
-	{
-		//START UDP AS SERVER
-		string reliableUDP = "reliableUDP.exe";
-		system(reliableUDP.c_str());
-	}
-	else
-	{
-		std::cout << "Invalid choice. Please select 1 or 2.\n";
-	}
+	//START UDP AS CLIENT
+	string reliableUDP = "reliableUDP.exe " + client.getIpAddress() + " " + client.getFilename();
+	system(reliableUDP.c_str());
+
 
 	return 0;
 }
 
 
 
+//
+// FUNCTION    : getClientInformation
+// DESCRIPTION : Retrieves client information, IP address and filename.
+// PARAMETERS  :
+//      Client& client : Reference to the Client object to store the information.
+// RETURNS     :
+//      bool : True if the client information is successfully retrieved, false otherwise.
+//
 
 bool getClientInformation(Client& client)
 {
 	string ipAddress = " ";
 	string filename = " ";
 
-	cout << "What's the IP ADDRESS\n";
+	cout << "What's the IP Address: ";
 	cin >> ipAddress;
 
-	cout << "What's the FILENAME\n";
+	cout << "What's the Filename: ";
 	cin >> filename;
 
 	bool isIpCorrect = client.setIpAddress(ipAddress);
 	bool isFilenameCorrect = client.setFilename(filename);
-
-	//get filesize
 
 	if(!isIpCorrect || !isFilenameCorrect)
 	{

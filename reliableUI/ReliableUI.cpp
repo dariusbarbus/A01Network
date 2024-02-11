@@ -54,10 +54,10 @@ bool getClientInformation(Client& client)
 	string ipAddress = " ";
 	string filename = " ";
 
-	cout << "What's the IP ADDRESS\n";
+	cout << "What's the IP Address\n";
 	cin >> ipAddress;
 
-	cout << "What's the FILENAME\n";
+	cout << "What's the Filename\n";
 	cin >> filename;
 
 	bool isIpCorrect = client.setIpAddress(ipAddress);

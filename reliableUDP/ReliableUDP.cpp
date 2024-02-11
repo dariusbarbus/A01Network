@@ -225,7 +225,7 @@ int main(int argc, char* argv[])
 
 	if(mode == Server)
 	{
-		outFile = ofstream("new.txt", ios::binary);
+		outFile = ofstream((char*)fileInfo.fileName, ios::binary);
 	}
 
 	bool connected = false;

@@ -1,7 +1,8 @@
-//THIS CLASS IS SELF-CONTAINT
-//WE NEED TO MODIFY UDP TO USE THIS CLASS FOR THE SUMMARY OUTPUT
-//IT WILL READ THE OUTPUT FROM A FILE
-//I REALLY HATE OOP
+// Filename: ReliableSummary.h
+// Project: SENG2040 – ASSIGNMENT 1
+// By: Dario Simpson & Francis Knowles
+// Date: February 10, 2024
+// Description: Header file
 
 #pragma once
 #include <iostream>
@@ -10,13 +11,33 @@
 
 using namespace std;
 
+
+/* -- CLASS COMMENT --
+    NAME    :   Summary
+    PURPOSE :   Provides functionality for reading and displaying summary information from files.
+*/
 class Summary
 {
 private:
 
 public:
+    //
+// METHOD      : Summary (constructor)
+// DESCRIPTION : Initializes a Summary object.
+// PARAMETERS  : None
+// RETURNS     : None
+//
 	Summary(){}
 
+
+
+    //
+// METHOD      : Reader
+// DESCRIPTION : Reads and displays the contents of the specified file.
+// PARAMETERS  : 
+//      string filename : The name of the file to read.
+// RETURNS     : None
+//
 	void Reader(string filename)
 	{
         std::ifstream file(filename);

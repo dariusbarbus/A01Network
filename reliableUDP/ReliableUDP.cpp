@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 #include <cstring>
-
+#include "PacketPacker.h"
 #include "Net.h"
 #include "TransferProtocol.h"
 
@@ -140,6 +140,8 @@ int main(int argc, char* argv[])
 	FileInfo fileInfo;
 	Mode mode = Server;
 	Address address;
+	ClientState clientState;
+	ServerState serverState;
 
 	if (argc >= 2) //the ip - filename
 	{
@@ -234,6 +236,8 @@ int main(int argc, char* argv[])
 
 		sendAccumulator += DeltaTime;
 
+		int packetStatus = 0;
+
 		while (sendAccumulator > 1.0f / sendRate)
 		{
 			unsigned char packet[PacketSize];
@@ -243,6 +247,7 @@ int main(int argc, char* argv[])
 				//If transfer complete and hash is checked
 					//Inform user of success or failure
 
+			//
 
 			if (mode == Client)
 			{
@@ -254,7 +259,7 @@ int main(int argc, char* argv[])
 				//create transfer request
 				else if (clientState.requestSent == false)
 				{
-					if (!createRequestPacket(packetToSend, fileInfo.fileName))		
+					if (!createRequestPacket(packet, fileInfo.fileName))		
 					{
 						clientState.errorState = true; //error packet will be created next send loop
 					}
@@ -277,12 +282,7 @@ int main(int argc, char* argv[])
 				//if last packet hasn't been sent, continue sending data
 				else if (clientState.sendingData == true && clientState.lastPacketSent == false)
 				{
-					if (packetStatus == DATAPACKET_FAILURE)
-					{
-						clientState.errorState = true; //error packet will be created next send loop
-						return 0;
-					}
-					else if (packetStatus == LAST_PACKET) //flip lastPacketSent based on size of packet (i.e. less than 210 bytes)
+					if (packetStatus == LAST_PACKET) //flip lastPacketSent based on size of packet (i.e. less than 210 bytes)
 					{
 						clientState.lastPacketSent = true;
 					}
@@ -290,7 +290,7 @@ int main(int argc, char* argv[])
 				//if last packet has been sent, send hash
 				else if (clientState.lastPacketSent == true && clientState.hashSent == false)
 				{
-					if (!createHashPacket(packetToSend, fileInfo.fileName))
+					if (!createHashPacket(packet, fileInfo.fileName))
 					{
 						clientState.errorState = true; //error packet will be created next send loop
 					}
@@ -317,13 +317,13 @@ int main(int argc, char* argv[])
 				else if (serverState.requestReceived == true && serverState.requestAckSent == false)
 				{
 					//send request ack
-					createAckResponsePacket(packetToSend, fileInfo.transferID);
+					createAckResponsePacket(packet, fileInfo.transferID);
 					serverState.requestAckSent = true;
 				}
 				else if (serverState.hashReceived == true && serverState.confirmationSent == false)
 				{
 					//send confirmation
-					createTransferConfirmationPacket(packetToSend, fileInfo.transferSpeed);
+					createTransferConfirmationPacket(packet, fileInfo.transferSpeed);
 					serverState.confirmationSent = true;
 				}
 			}
